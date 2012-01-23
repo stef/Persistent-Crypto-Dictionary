@@ -31,17 +31,6 @@
 # POSSIBILITY OF SUCH DAMAGE.
 #
 
-## 12:18 <@dnet> szerintem megoldhato crypto modszerrel ;)
-## 12:19 <@dnet> A = sha512(shorturl)
-## 12:20 <@dnet> A-t felbontjuk ket 256 byte-os reszre: A = B + C
-## 12:20 <@dnet> s/byte-o/bite/
-## 12:21 <@dnet> feloldas utan letaroljuk a B -> AES(key=C, data=longurl) hozzarendelest
-## 12:21 <@dnet> innentol nem allithato vissza semmi a hozzarendelesek birtokaban
-## 12:21 <@dnet> viszont ha jon egy keres, A, B, C eloallithato
-## 12:21 <@dnet> es B+C birtokaban elokeritheto, melyik URL kell, es feloldhato a titkositas
-## 12:22 <@dnet> velemeny? ;)
-## 12:33 <@dnet> szoval nem sima sha512, hanem letarolunk egy S salt erteket, es A = sha512(shorturl) helyett A = HMAC(key=S, algo=SHA512, data=shorturl)
-
 from __future__ import with_statement
 import hmac, hashlib
 from Crypto.Cipher import AES
