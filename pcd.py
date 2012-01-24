@@ -100,10 +100,15 @@ class PersistentCryptoDict():
                         for i in range(len(value)/bsize)]).rstrip(chr(0x08))
 
 if __name__ == "__main__":
+    import sys
     d=PersistentCryptoDict('pcd.db')
-    print d
-    print d['my key']
-    d['my key']='secret value'
-    print d['my key']
-    d['my key']='top secret value'
-    print d['my key']
+    if len(sys.argv)==3:
+        d[sys.argv[1]]=sys.argv[2]
+    elif len(sys.argv)==2:
+        print d[sys.argv[1]]
+    else:
+        print d['my key']
+        d['my key']='secret value'
+        print d['my key']
+        d['my key']='top secret value'
+        print d['my key']

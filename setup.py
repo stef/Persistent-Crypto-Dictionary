@@ -10,7 +10,7 @@ def read(fname):
 
 setup(
     name = "persistent_crypto_dict",
-    version = "0.4",
+    version = "0.4.2",
     author = "Stefan Marsiske",
     author_email = "stefan.marsiske@gmail.com",
     summary = ("An encrypted persistent dictionary"),
