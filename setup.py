@@ -16,6 +16,7 @@ setup(
     summary = ("An encrypted persistent dictionary"),
     license = "BSD",
     keywords = "crypto collections container persistency cache",
+    py_modules=['pcd' ],
     url = "http://packages.python.org/persistent_crypto_dict",
     long_description=read('README.rst'),
     classifiers=["Classifier: Development Status :: 4 - Beta",
