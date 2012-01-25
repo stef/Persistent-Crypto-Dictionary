@@ -19,8 +19,8 @@ setup(
     py_modules=['pcd' ],
     url = "http://packages.python.org/persistent_crypto_dict",
     long_description=read('README.rst'),
-    classifiers=["Classifier: Development Status :: 4 - Beta",
-                 "Classifier: License :: OSI Approved :: BSD License",
-                 "Classifier: Topic :: Security :: Cryptography",
+    classifiers = ["Development Status :: 4 - Beta",
+                   "License :: OSI Approved :: BSD License",
+                   "Topic :: Security :: Cryptography",
                  ],
 )
