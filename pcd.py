@@ -85,7 +85,7 @@ class PersistentCryptoDict():
     def encrypt(self, C, value):
         # encrypt value with second half of MAC
         bsize=len(C)
-        cipher = AES.new(C, AES.MODE_OFB)
+        cipher = AES.new(C, AES.MODE_OFB, '\x00'*16)
         # pad value
         value += chr(0x08) * (-len(value) % bsize)
         return b64encode(''.join([cipher.encrypt(value[i*bsize:(i+1)*bsize])
@@ -94,7 +94,7 @@ class PersistentCryptoDict():
     def decrypt(self, C, value):
         # decode value
         value=b64decode(value)
-        cipher = AES.new(C, AES.MODE_OFB)
+        cipher = AES.new(C, AES.MODE_OFB, '\x00'*16)
         bsize=len(C)
         return ''.join([cipher.decrypt(value[i*bsize:(i+1)*bsize])
                         for i in range(len(value)/bsize)]).rstrip(chr(0x08))
