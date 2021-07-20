@@ -45,8 +45,8 @@ class sha512:
 
 CREATE_SQL = "CREATE TABLE if not exists pcd_urlcache (key TEXT PRIMARY KEY, value TEXT);"
 class PersistentCryptoDict():
-    def __init__(self, filename='pcd.db', salt="3j3,xiDS"):
-        self.salt = salt
+    def __init__(self, filename='pcd.db', salt=b"3j3,xiDS"):
+        self.salt = salt.encode('utf8') if isinstance(salt,str) else salt
         self.db = sqlite3.connect(filename)
         # create table if not existing
         cursor = self.db.cursor()
@@ -78,6 +78,8 @@ class PersistentCryptoDict():
             return (cursor.fetchone() or [None])[0]
 
     def get_key(self,key):
+        if(isinstance(key, str)):
+                key=str.encode('utf8')
         A = hmac.new(self.salt, key, sha512())
         return (A.hexdigest()[:64],
                 A.digest()[32:])
@@ -85,19 +87,19 @@ class PersistentCryptoDict():
     def encrypt(self, C, value):
         # encrypt value with second half of MAC
         bsize=len(C)
-        cipher = AES.new(C, AES.MODE_OFB, '\x00'*16)
+        cipher = AES.new(C, AES.MODE_OFB, b'\x00'*16)
         # pad value
         value += chr(0x08) * (-len(value) % bsize)
-        return b64encode(''.join([cipher.encrypt(value[i*bsize:(i+1)*bsize])
-                                  for i in range(len(value)/bsize)]))
+        return b64encode(b''.join([cipher.encrypt(value[i*bsize:(i+1)*bsize].encode('utf8'))
+                                  for i in range(len(value)//bsize)]))
 
     def decrypt(self, C, value):
         # decode value
         value=b64decode(value)
-        cipher = AES.new(C, AES.MODE_OFB, '\x00'*16)
+        cipher = AES.new(C, AES.MODE_OFB, b'\x00'*16)
         bsize=len(C)
-        return ''.join([cipher.decrypt(value[i*bsize:(i+1)*bsize])
-                        for i in range(len(value)/bsize)]).rstrip(chr(0x08))
+        return b''.join([cipher.decrypt(value[i*bsize:(i+1)*bsize])
+                        for i in range(len(value)//bsize)]).rstrip(b'\x08')
 
 if __name__ == "__main__":
     import sys
@@ -105,10 +107,10 @@ if __name__ == "__main__":
     if len(sys.argv)==3:
         d[sys.argv[1]]=sys.argv[2]
     elif len(sys.argv)==2:
-        print d[sys.argv[1]]
+        print(d[sys.argv[1]])
     else:
-        print d['my key']
+        print(d['my key'])
         d['my key']='secret value'
-        print d['my key']
+        print(d['my key'])
         d['my key']='top secret value'
-        print d['my key']
+        print(d['my key'])

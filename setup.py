@@ -10,13 +10,14 @@ def read(fname):
 
 setup(
     name = "persistent_crypto_dict",
-    version = "0.4.3",
+    version = "0.5.0",
     author = "Stefan Marsiske",
     author_email = "stefan.marsiske@gmail.com",
     summary = ("An encrypted persistent dictionary"),
     license = "BSD",
     keywords = "crypto collections container persistency cache",
     py_modules=['pcd' ],
+    install_requires = ['pycryptodome'],
     url = "http://packages.python.org/persistent_crypto_dict",
     long_description=read('README.rst'),
     classifiers = ["Development Status :: 4 - Beta",
